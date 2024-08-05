@@ -162,7 +162,7 @@
           "__guid": "625ba089-b803-4b07-993f-6667356da2ce",
           "Flags": 0,
           "Name": "Head",
-          "Position": "0.8959483,0,62.49758",
+          "Position": "0,0,63.78773",
           "Enabled": true
         },
         {
@@ -177,7 +177,7 @@
               "__guid": "cf3cbf96-22b6-4be4-a5d0-672a96c17f9f",
               "BackgroundColor": "0.33333,0.46275,0.52157,1",
               "ClearFlags": "All",
-              "FieldOfView": 80.93,
+              "FieldOfView": 90.93,
               "IsMainCamera": true,
               "Orthographic": false,
               "OrthographicHeight": 1204,
