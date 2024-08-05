@@ -9,7 +9,7 @@ public sealed class CameraRotate : Component
 {
 
 	[Property] public float Distance {get; set;} = 0f;
-	[Property] public GameObject target {get; set;}
+	[Property] public GameObject head {get; set;}
 
 	public bool isFirstPerson => Distance == 0f;
 	private CameraComponent camera;
@@ -24,18 +24,18 @@ public sealed class CameraRotate : Component
 
 	{
 		
-		var eyeAngles = target.Transform.Rotation.Angles();
+		var eyeAngles = head.Transform.Rotation.Angles();
 		eyeAngles.pitch += Input.MouseDelta.y * 0.1f;
 		eyeAngles.yaw -= Input.MouseDelta.x * 0.1f;
 		eyeAngles.roll = 0f;
 		eyeAngles.pitch = eyeAngles.pitch.Clamp(-89.9f,89.9f);
-		target.Transform.Rotation = eyeAngles.ToRotation();
+		head.Transform.Rotation = eyeAngles.ToRotation();
 
 
 
 		if (camera is not null)
 		{
-			var camPos = target.Transform.Position;
+			var camPos = head.Transform.Position;
 			
 			if (!isFirstPerson)
 			{

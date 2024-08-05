@@ -34,7 +34,14 @@ public sealed class PlayerMovement : Component
 
 	protected override void OnUpdate()
 	{
-		
+		isCrouching = Input.Down("Duck");
+		isSprinting = Input.Down("Run");
+	}
+
+	protected override void OnFixedUpdate()
+	{
+		BuildWishVelocity();
+		Move();
 	}
 
 	void BuildWishVelocity()
@@ -42,7 +49,6 @@ public sealed class PlayerMovement : Component
 		wishVelocity = 0;
 		
 		var rot = head.Transform.Rotation;
-
 		if (Input.Down("Forward")) wishVelocity += rot.Forward;
 		if (Input.Down("Backward")) wishVelocity += rot.Backward;
 		if (Input.Down("Left")) wishVelocity += rot.Left;
@@ -53,7 +59,7 @@ public sealed class PlayerMovement : Component
 		if(!wishVelocity.IsNearZeroLength) wishVelocity = wishVelocity.Normal;
 
 		if (isCrouching) wishVelocity *= crouchSpeed;
-		if (isSprinting) wishVelocity *= runSpeed;
+		else if (isSprinting) wishVelocity *= runSpeed;
 		else wishVelocity *= speed;
 	}
 
@@ -81,7 +87,10 @@ public sealed class PlayerMovement : Component
 		if(!characterController.IsOnGround)
 		{
 			characterController.Velocity += gravity * Time.Delta * 0.5f;
-			
+		}
+		else
+		{
+			characterController.Velocity = characterController.Velocity.WithZ(0);
 		}
 
 	}
