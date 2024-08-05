@@ -48,6 +48,22 @@ public sealed class PlayerMovement : Component
 		if (Input.Down("Left")) wishVelocity += rot.Left;
 		if (Input.Down("Right")) wishVelocity += rot.Right;
 
+		wishVelocity = wishVelocity.WithZ(0);
+
+		if(!wishVelocity.IsNearZeroLength) wishVelocity = wishVelocity.Normal;
+
+		if (isCrouching) wishVelocity *= crouchSpeed;
+		if (isSprinting) wishVelocity *= runSpeed;
+		else wishVelocity *= speed;
+	}
+
+	void Move()
+	{
+		// Get gravity from our scene
+		var gravity = Scene.PhysicsWorld.Gravity;
+		
 		
 	}
+
+
 }
