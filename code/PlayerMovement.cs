@@ -62,7 +62,28 @@ public sealed class PlayerMovement : Component
 		// Get gravity from our scene
 		var gravity = Scene.PhysicsWorld.Gravity;
 		
-		
+		if (characterController.IsOnGround)
+		{
+			characterController.Velocity = characterController.Velocity.WithZ(0);
+			characterController.Accelerate(wishVelocity);
+			characterController.ApplyFriction(groundControl);
+
+		}
+		else
+		{
+			characterController.Velocity += gravity * Time.Delta * 0.5f;
+			characterController.Accelerate(wishVelocity.ClampLength(maxForce));
+			characterController.ApplyFriction(airControl);
+		}
+
+		characterController.Move();
+
+		if(!characterController.IsOnGround)
+		{
+			characterController.Velocity += gravity * Time.Delta * 0.5f;
+			
+		}
+
 	}
 
 

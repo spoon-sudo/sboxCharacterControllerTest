@@ -207,6 +207,7 @@
             {
               "__type": "CameraRotate",
               "__guid": "4ae2180d-efa7-484e-af0e-98ba53ca73b1",
+              "__enabled": false,
               "Distance": 0,
               "target": {
                 "_type": "gameobject",
