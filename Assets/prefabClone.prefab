@@ -1,0 +1,27 @@
+{
+  "RootObject": {
+    "__guid": "1b047393-d956-47ee-a22b-6ddf3391f4ea",
+    "Flags": 0,
+    "Name": "prefabclone",
+    "Scale": "0.1741971,0.1741971,0.1741971",
+    "Enabled": true,
+    "Components": [
+      {
+        "__type": "Sandbox.ModelRenderer",
+        "__guid": "a2de8659-2b46-4536-a276-d746552f50a0",
+        "BodyGroups": 18446744073709551615,
+        "Model": "models/dev/box.vmdl",
+        "RenderType": "On",
+        "Tint": "1,1,1,1"
+      }
+    ],
+    "Children": [],
+    "__variables": []
+  },
+  "ShowInMenu": false,
+  "MenuPath": null,
+  "MenuIcon": null,
+  "ResourceVersion": 1,
+  "__references": [],
+  "__version": 1
+}

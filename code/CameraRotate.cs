@@ -8,6 +8,8 @@ using Sandbox;
 using Sandbox.Utility;
 using Steamworks.Data;
 using Sandbox.UI;
+using System.Diagnostics;
+using Sandbox.Diagnostics;
 public sealed class CameraRotate : Component
 {
 
@@ -16,9 +18,9 @@ public sealed class CameraRotate : Component
 	[Property] public PlayerMovement Player { get; set; }
 	[Property] public GameObject head { get; set; }
 
-	
+
 	[Property] public GameObject body { get; set; }
-	
+
 	[Property] public GameObject screenUI { get; set; }
 	public bool isFirstPerson => Distance == 0f;
 	private CameraComponent camera;
@@ -27,7 +29,7 @@ public sealed class CameraRotate : Component
 
 	private ScreenPanel screen;
 
-	
+
 	protected override void OnAwake()
 	{
 		camera = Components.Get<CameraComponent>();
@@ -40,7 +42,7 @@ public sealed class CameraRotate : Component
 	protected override void OnUpdate()
 
 	{
-		
+
 		var eyeAngles = head.Transform.Rotation.Angles();
 		eyeAngles.pitch += Input.MouseDelta.y * 0.1f;
 		eyeAngles.yaw -= Input.MouseDelta.x * 0.1f;
@@ -48,14 +50,21 @@ public sealed class CameraRotate : Component
 		eyeAngles.pitch = eyeAngles.pitch.Clamp( -89.9f, 89.9f );
 		head.Transform.Rotation = eyeAngles.ToRotation();
 
+		if ( Player.isSitting )
+		{
+			Distance = 125f;
+		}
+		else
+		{
+			Distance = Distance;
+		}
 
-
-		if ( Input.Pressed( "Voice" ) )
+		if ( Input.Pressed( "Voice" ) && !Player.isSitting )
 		{
 			float targetDistance = Distance == 0f ? 125f : 0f;
 			_ = SmoothTransition( targetDistance );
 
-			if (screen is not null)
+			if ( screen is not null )
 			{
 				screen.Opacity = isFirstPerson ? 0f : 1f;
 			}
@@ -77,6 +86,7 @@ public sealed class CameraRotate : Component
 				if ( camTrace.Hit )
 				{
 					camPos = camTrace.HitPosition + camTrace.Normal;
+					
 				}
 				else
 				{

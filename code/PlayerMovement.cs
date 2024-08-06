@@ -1,3 +1,4 @@
+using System;
 using Microsoft.VisualBasic;
 using Sandbox;
 using Sandbox.Citizen;
@@ -15,11 +16,17 @@ public sealed class PlayerMovement : Component
 	[Property] public GameObject head { get; set; }
 	[Property] public GameObject body { get; set; }
 
+	[Property] public GameObject prefabClone { get; set; }
+
+
+
 	public Vector3 wishVelocity = Vector3.Zero;
 
 	public bool isCrouching = false;
 
 	public bool isSprinting = false;
+
+	public bool isSitting = false;
 
 	private CharacterController characterController;
 
@@ -30,16 +37,19 @@ public sealed class PlayerMovement : Component
 	{
 		characterController = Components.Get<CharacterController>();
 		animation = Components.Get<CitizenAnimationHelper>();
+
 	}
 
 	protected override void OnUpdate()
 	{
+		drawObjects();
 		UpdateCrouch();
 		isSprinting = Input.Down( "Run" );
-		if ( Input.Pressed( "Jump" ) ) jump();
-
+		if ( Input.Pressed( "Jump" ) && !isSitting ) jump();
+		sit();
 		rotateBody();
 		updateAnimations();
+
 
 	}
 
@@ -87,7 +97,10 @@ public sealed class PlayerMovement : Component
 			characterController.ApplyFriction( airControl );
 		}
 
-		characterController.Move();
+		if ( !isSitting )
+		{
+			characterController.Move();
+		}
 
 		if ( !characterController.IsOnGround )
 		{
@@ -108,10 +121,15 @@ public sealed class PlayerMovement : Component
 		var targetangles = new Angles( 0, head.Transform.Rotation.Yaw(), 0 ).ToRotation();
 		float rotateDiffrence = body.Transform.Rotation.Distance( targetangles );
 
-		if ( rotateDiffrence > 50 || characterController.Velocity.Length > 10f )
+		if ( !isSitting )
 		{
-			body.Transform.Rotation = Rotation.Lerp( body.Transform.Rotation, targetangles, Time.Delta * 10f );
+			if ( rotateDiffrence > 50 || characterController.Velocity.Length > 10f )
+			{
+				body.Transform.Rotation = Rotation.Lerp( body.Transform.Rotation, targetangles, Time.Delta * 10f );
+			}
 		}
+
+
 
 	}
 
@@ -137,6 +155,7 @@ public sealed class PlayerMovement : Component
 		animation.MoveStyle = isSprinting ? CitizenAnimationHelper.MoveStyles.Run : CitizenAnimationHelper.MoveStyles.Walk;
 		animation.DuckLevel = isCrouching ? 1f : 0f;
 
+		animation.Sitting = isSitting ? CitizenAnimationHelper.SittingStyle.Floor : CitizenAnimationHelper.SittingStyle.None;
 
 	}
 
@@ -157,6 +176,50 @@ public sealed class PlayerMovement : Component
 		}
 
 	}
+
+	void sit()
+	{
+		if ( characterController is null ) return;
+
+		if ( Input.Pressed( "Sit" ) && characterController.IsOnGround )
+		{
+			isSitting = isSitting ? false : true;
+
+
+		}
+	}
+
+	void drawObjects()
+	{
+		var startPos = head.Transform.Position;
+		var dir = head.Transform.Rotation.Forward;
+		var tr = Scene.Trace.Ray( startPos, startPos + (dir * 1000f) ).Run();
+		var box = new BBox( new Vector3( -30, -10, -30 ), new Vector3( 30, 0, 30 ) );
+
+		if ( tr.Hit )
+		{
+			Gizmo.Draw.Arrow( startPos, tr.HitPosition );
+			
+			var hitNormal = tr.Normal;
+			var rotation = Rotation.LookAt(hitNormal, Vector3.Up) * Rotation.FromAxis(Vector3.Down, 90);
+			var finalBox = box.Rotate(rotation).Translate(tr.HitPosition - box.Center);
+			
+			
+			if (Input.Pressed("Attack1")) 
+			{
+				prefabClone.Clone(tr.EndPosition + tr.Normal);
+			}
+			
+			Gizmo.Draw.LineBBox( finalBox );
+
+
+
+		}
+
+	}
+
+
+
 }
 
 

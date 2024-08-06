@@ -116,6 +116,10 @@
           },
           "jumpForce": 400,
           "maxForce": 50,
+          "prefabClone": {
+            "_type": "gameobject",
+            "prefab": "prefabclone.prefab"
+          },
           "runSpeed": 290,
           "speed": 160
         },
@@ -253,6 +257,10 @@
                 "go": "677bff00-a68d-489e-8755-31e206825bb0",
                 "component_type": "PlayerMovement"
               },
+              "screenUI": {
+                "_type": "gameobject",
+                "go": "6097f746-5f90-47f4-ab2d-cea6c4d7ba05"
+              },
               "transitionDuration": 0.3
             }
           ]
@@ -325,6 +333,10 @@
           "Opacity": 1,
           "Scale": 1,
           "ZIndex": 100
+        },
+        {
+          "__type": "PlayerUI",
+          "__guid": "6a794290-b5a0-4c1c-8f74-8c8ff95e7480"
         }
       ]
     }
