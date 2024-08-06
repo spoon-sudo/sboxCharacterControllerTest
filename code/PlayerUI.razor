@@ -1,0 +1,14 @@
+@using Sandbox;
+@using Sandbox.UI;
+@inherits PanelComponent
+
+<root>
+	<div id="dot"></div>
+</root>
+
+@code
+{
+
+
+	protected override int BuildHash() => System.HashCode.Combine("");
+}

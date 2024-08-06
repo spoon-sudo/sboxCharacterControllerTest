@@ -310,6 +310,23 @@
           "Static": false
         }
       ]
+    },
+    {
+      "__guid": "6097f746-5f90-47f4-ab2d-cea6c4d7ba05",
+      "Flags": 0,
+      "Name": "Screen",
+      "Position": "235.4149,0,74.7824",
+      "Enabled": true,
+      "Components": [
+        {
+          "__type": "Sandbox.ScreenPanel",
+          "__guid": "e9e9f21b-5fb7-4d18-86f0-61bc77a725f3",
+          "AutoScreenScale": true,
+          "Opacity": 1,
+          "Scale": 1,
+          "ZIndex": 100
+        }
+      ]
     }
   ],
   "SceneProperties": {
