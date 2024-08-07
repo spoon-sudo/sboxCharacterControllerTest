@@ -13,12 +13,12 @@ using Sandbox.Diagnostics;
 public sealed class CameraRotate : Component
 {
 
-	[Property] public float Distance { get; set; } = 125f;
-	[Property] public float transitionDuration { get; set; } = 1f;
+	[Property] public float Distance { get; set; } = 0f;
+
 	[Property] public PlayerMovement Player { get; set; }
 	[Property] public GameObject head { get; set; }
 
-
+	[Property] public InventorySystem inventory { get; set; }
 	[Property] public GameObject body { get; set; }
 
 	[Property] public GameObject screenUI { get; set; }
@@ -28,7 +28,7 @@ public sealed class CameraRotate : Component
 	private ModelRenderer BodyRenderer;
 
 	private ScreenPanel screen;
-
+	private bool menuOpen = false;
 
 	protected override void OnAwake()
 	{
@@ -36,6 +36,7 @@ public sealed class CameraRotate : Component
 		BodyRenderer = body.Components.Get<ModelRenderer>();
 		screen = screenUI.Components.Get<ScreenPanel>();
 		screen.Opacity = 0f;
+
 	}
 
 
@@ -56,19 +57,36 @@ public sealed class CameraRotate : Component
 		}
 		else
 		{
-			Distance = Distance;
+			Distance = 0f;
 		}
 
-		if ( Input.Pressed( "Voice" ) && !Player.isSitting )
+		if ( Input.Pressed( "Menu" ) )
 		{
-			float targetDistance = Distance == 0f ? 125f : 0f;
-			_ = SmoothTransition( targetDistance );
+			screen.Opacity = screen.Opacity == 0f ? 1f : 0f;
 
-			if ( screen is not null )
+			if ( screen.Opacity == 0 )
 			{
-				screen.Opacity = isFirstPerson ? 0f : 1f;
+				menuOpen = false;
 			}
+			else
+			{
+				menuOpen = true;
+			}
+
+
+			if ( menuOpen )
+			{
+				Mouse.Visible = true;
+			}
+			else
+			{
+				Mouse.Visible = false;
+			}
+
+
 		}
+
+
 
 		var targetOffset = Vector3.Zero;
 		if ( Player.isCrouching ) targetOffset += Vector3.Down * 32f;
@@ -86,7 +104,7 @@ public sealed class CameraRotate : Component
 				if ( camTrace.Hit )
 				{
 					camPos = camTrace.HitPosition + camTrace.Normal;
-					
+
 				}
 				else
 				{
@@ -106,32 +124,6 @@ public sealed class CameraRotate : Component
 
 	}
 
-	private async Task SmoothTransition( float targetDistance )
-	{
-		float startDistance = Distance;
-		float elapsedTime = 0f;
 
-		while ( elapsedTime < transitionDuration )
-		{
-			float t = elapsedTime / transitionDuration;
-
-			t = EaseInOutCubic( t );
-
-			Distance = Lerp( startDistance, targetDistance, t );
-			elapsedTime += Time.Delta;
-			await Task.Delay( 1 );
-		}
-
-		Distance = targetDistance;
-	}
-
-	private float Lerp( float start, float end, float t )
-	{
-		return start + (end - start) * t;
-	}
-	private float EaseInOutCubic( float t )
-	{
-		return t < 0.5f ? 4f * t * t * t : 1f - MathF.Pow( -2f * t + 2f, 3f ) / 2f;
-	}
 
 }

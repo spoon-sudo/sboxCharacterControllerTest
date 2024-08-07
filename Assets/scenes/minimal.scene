@@ -140,6 +140,18 @@
             "go": "741d2f91-10c2-4dd7-86f0-25f39eecbd9e",
             "component_type": "SkinnedModelRenderer"
           }
+        },
+        {
+          "__type": "InventorySystem",
+          "__guid": "ae7d434d-26af-4572-9ade-c82812f5d2be"
+        },
+        {
+          "__type": "InventoryManagment",
+          "__guid": "14a3acf6-d5d7-43a0-9e2f-2fbd618ce8d6",
+          "head": {
+            "_type": "gameobject",
+            "go": "625ba089-b803-4b07-993f-6667356da2ce"
+          }
         }
       ],
       "Children": [
@@ -246,10 +258,16 @@
                 "_type": "gameobject",
                 "go": "741d2f91-10c2-4dd7-86f0-25f39eecbd9e"
               },
-              "Distance": 125,
+              "Distance": 0,
               "head": {
                 "_type": "gameobject",
                 "go": "625ba089-b803-4b07-993f-6667356da2ce"
+              },
+              "inventory": {
+                "_type": "component",
+                "component_id": "ae7d434d-26af-4572-9ade-c82812f5d2be",
+                "go": "677bff00-a68d-489e-8755-31e206825bb0",
+                "component_type": "InventorySystem"
               },
               "Player": {
                 "_type": "component",
@@ -259,9 +277,8 @@
               },
               "screenUI": {
                 "_type": "gameobject",
-                "go": "6097f746-5f90-47f4-ab2d-cea6c4d7ba05"
-              },
-              "transitionDuration": 0.3
+                "go": "077f59c9-266d-4ac4-a457-e8608c8a1666"
+              }
             }
           ]
         }
@@ -322,7 +339,7 @@
     {
       "__guid": "6097f746-5f90-47f4-ab2d-cea6c4d7ba05",
       "Flags": 0,
-      "Name": "Screen",
+      "Name": "CrosshairUI",
       "Position": "235.4149,0,74.7824",
       "Enabled": true,
       "Components": [
@@ -337,6 +354,31 @@
         {
           "__type": "PlayerUI",
           "__guid": "6a794290-b5a0-4c1c-8f74-8c8ff95e7480"
+        }
+      ]
+    },
+    {
+      "__guid": "077f59c9-266d-4ac4-a457-e8608c8a1666",
+      "Flags": 0,
+      "Name": "InventoryUI",
+      "Position": "-53.89876,-122.3663,0.6235657",
+      "Enabled": true,
+      "Components": [
+        {
+          "__type": "Sandbox.ScreenPanel",
+          "__guid": "5689b0c0-fc57-48cd-baac-f954a27ed12c",
+          "AutoScreenScale": true,
+          "Opacity": 1,
+          "Scale": 1,
+          "ZIndex": 100
+        },
+        {
+          "__type": "InventoryUI",
+          "__guid": "ba55a80b-4ce0-4afb-bf85-877885b6cd40"
+        },
+        {
+          "__type": "Inventory",
+          "__guid": "1fdd3056-6e0b-420f-aca7-80ca8bd90396"
         }
       ]
     }

@@ -1,14 +1,12 @@
-@using Sandbox;
-@using Sandbox.UI;
+@using Sandbox
+@using Sandbox.UI
 @inherits PanelComponent
 
-<root>
-	<div id="dot"></div>
-</root>
+<div id="playerui">
+    <div id="dot"></div>
+</div>
 
 @code
 {
-
-
-	protected override int BuildHash() => System.HashCode.Combine("");
+    protected override int BuildHash() => System.HashCode.Combine("");
 }

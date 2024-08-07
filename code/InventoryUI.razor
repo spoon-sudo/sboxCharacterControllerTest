@@ -1,0 +1,21 @@
+@using Sandbox
+@using Sandbox.UI
+@inherits PanelComponent
+
+<root id="inventory-ui">
+    <h3>Inventory</h3>
+    <ul>
+        @foreach (var item in InventorySystem.Instance.GetAllItems())
+        {
+            <li>@item.Name (Quantity: @item.Quantity)</li>
+			
+        }
+    </ul>
+</root>
+
+@code
+{
+    protected override int BuildHash() => System.HashCode.Combine(InventorySystem.Instance.GetAllItems().GetHashCode());
+	
+	
+}

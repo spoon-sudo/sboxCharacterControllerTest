@@ -1,4 +1,5 @@
 using System;
+using System.Security.Cryptography.X509Certificates;
 using Microsoft.VisualBasic;
 using Sandbox;
 using Sandbox.Citizen;
@@ -10,6 +11,8 @@ public sealed class PlayerMovement : Component
 	[Property] public float airControl { get; set; } = 0.1f;
 	[Property] public float maxForce { get; set; } = 50f;
 	[Property] public float speed { get; set; } = 160f;
+
+	
 	[Property] public float runSpeed { get; set; } = 290f;
 	[Property] public float crouchSpeed { get; set; } = 90f;
 	[Property] public float jumpForce { get; set; } = 400f;
@@ -18,6 +21,7 @@ public sealed class PlayerMovement : Component
 
 	[Property] public GameObject prefabClone { get; set; }
 
+	
 
 
 	public Vector3 wishVelocity = Vector3.Zero;
@@ -31,25 +35,32 @@ public sealed class PlayerMovement : Component
 	private CharacterController characterController;
 
 	private CitizenAnimationHelper animation;
-
+	
+	
 
 	protected override void OnAwake()
 	{
 		characterController = Components.Get<CharacterController>();
 		animation = Components.Get<CitizenAnimationHelper>();
+		
+		InventorySystem.Instance.ClearInventory();
 
+		
 	}
 
 	protected override void OnUpdate()
 	{
+		
 		drawObjects();
 		UpdateCrouch();
 		isSprinting = Input.Down( "Run" );
-		if ( Input.Pressed( "Jump" ) && !isSitting ) jump();
+		if ( Input.Pressed( "Jump" ) && !isSitting ) jump(); 
 		sit();
 		rotateBody();
 		updateAnimations();
+		
 
+		
 
 	}
 
@@ -199,17 +210,17 @@ public sealed class PlayerMovement : Component
 		if ( tr.Hit )
 		{
 			Gizmo.Draw.Arrow( startPos, tr.HitPosition );
-			
+
 			var hitNormal = tr.Normal;
-			var rotation = Rotation.LookAt(hitNormal, Vector3.Up) * Rotation.FromAxis(Vector3.Down, 90);
-			var finalBox = box.Rotate(rotation).Translate(tr.HitPosition - box.Center);
-			
-			
-			if (Input.Pressed("Attack1")) 
+			var rotation = Rotation.LookAt( hitNormal, Vector3.Up ) * Rotation.FromAxis( Vector3.Down, 90 );
+			var finalBox = box.Rotate( rotation ).Translate( tr.HitPosition - box.Center );
+
+
+			if ( Input.Pressed( "Attack1" ) )
 			{
-				prefabClone.Clone(tr.EndPosition + tr.Normal);
+				prefabClone.Clone( tr.EndPosition + tr.Normal );
 			}
-			
+
 			Gizmo.Draw.LineBBox( finalBox );
 
 
