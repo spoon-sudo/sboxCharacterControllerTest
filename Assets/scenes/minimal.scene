@@ -381,6 +381,24 @@
           "__guid": "1fdd3056-6e0b-420f-aca7-80ca8bd90396"
         }
       ]
+    },
+    {
+      "__guid": "d4f65def-9b68-4b85-8536-6e181fad290b",
+      "Flags": 0,
+      "Name": "Map",
+      "Enabled": true,
+      "Components": [
+        {
+          "__type": "Sandbox.MapInstance",
+          "__guid": "8c341f55-cab2-49df-95c7-740f36da7756",
+          "__version": 1,
+          "EnableCollision": true,
+          "MapName": "blitz.7eleven",
+          "NoOrigin": false,
+          "UseMapFromLaunch": false
+        }
+      ],
+      "Children": []
     }
   ],
   "SceneProperties": {
